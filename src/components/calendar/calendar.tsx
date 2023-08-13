@@ -3,7 +3,6 @@ import { ViewMode } from "../../types/public-types";
 import { TopPartOfCalendar } from "./top-part-of-calendar";
 import {
   getCachedDateTimeFormat,
-  getDaysInMonth,
   getLocalDayOfWeek,
   getLocaleMonth,
   getWeekNumberISO8601,
@@ -235,25 +234,18 @@ export const Calendar: React.FC<CalendarProps> = ({
           {bottomValue}
         </text>
       );
-      if (
-        i + 1 !== dates.length &&
-        date.getMonth() !== dates[i + 1].getMonth()
-      ) {
-        const topValue = getLocaleMonth(date, locale);
 
+      const topValue = `W${getWeekNumberISO8601(date)}`;
+
+      if (String(date).slice(0, 3) === "Sun") {
         topValues.push(
           <TopPartOfCalendar
-            key={topValue + date.getFullYear()}
+            key={topValue}
             value={topValue}
-            x1Line={columnWidth * (i + 1)}
+            x1Line={columnWidth * i}
             y1Line={0}
             y2Line={topDefaultHeight}
-            xText={
-              columnWidth * (i + 1) -
-              getDaysInMonth(date.getMonth(), date.getFullYear()) *
-                columnWidth *
-                0.5
-            }
+            xText={columnWidth * i}
             yText={topDefaultHeight * 0.9}
           />
         );
