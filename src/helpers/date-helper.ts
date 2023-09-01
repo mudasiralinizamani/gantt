@@ -224,7 +224,6 @@ export const getLocalDayOfWeek = (
     bottomValue[0],
     bottomValue[0].toLocaleUpperCase()
   );
-  console.log(bottomValue)
   return translateDayNameToDutch(bottomValue);
 };
 

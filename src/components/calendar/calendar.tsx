@@ -220,20 +220,21 @@ export const Calendar: React.FC<CalendarProps> = ({
     const dates = dateSetup.dates;
     for (let i = 0; i < dates.length; i++) {
       const date = dates[i];
-      const bottomValue = `${getLocalDayOfWeek(date, locale, "short")}, ${date
-        .getDate()
-        .toString()}`;
+      const bottomValue = `${
+        columnWidth > 50 ? `${getLocalDayOfWeek(date, locale, "short")},` : ""
+      } ${date.getDate().toString()}`;
 
-      bottomValues.push(
-        <text
-          key={date.getTime()}
-          y={headerHeight * 0.8}
-          x={columnWidth * i + columnWidth * 0.5}
-          className={styles.calendarBottomText}
-        >
-          {bottomValue}
-        </text>
-      );
+      columnWidth >= 25 &&
+        bottomValues.push(
+          <text
+            key={date.getTime()}
+            y={headerHeight * 0.8}
+            x={columnWidth * i + columnWidth * 0.5}
+            className={styles.calendarBottomText}
+          >
+            {bottomValue}
+          </text>
+        );
 
       const topValue = `W${getWeekNumberISO8601(date)}`;
 
