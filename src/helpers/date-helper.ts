@@ -191,6 +191,27 @@ export const getLocaleMonth = (date: Date, locale: string) => {
   return bottomValue;
 };
 
+const translateDayNameToDutch = (value: string): string => {
+  switch (value) {
+    case "Mon":
+      return "Maa";
+    case "Tue":
+      return "Din";
+    case "Wed":
+      return "Woe";
+    case "Thu":
+      return "Don";
+    case "Fri":
+      return "Vri";
+    case "Sat":
+      return "Zat";
+    case "Sun":
+      return "Zon";
+    default:
+      return value;
+  }
+};
+
 export const getLocalDayOfWeek = (
   date: Date,
   locale: string,
@@ -203,7 +224,7 @@ export const getLocalDayOfWeek = (
     bottomValue[0],
     bottomValue[0].toLocaleUpperCase()
   );
-  return bottomValue;
+  return translateDayNameToDutch(bottomValue);
 };
 
 /**
