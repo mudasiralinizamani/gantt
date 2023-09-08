@@ -38,7 +38,6 @@ export const TaskItem: React.FC<TaskItemProps> = props => {
   const textRef = useRef<SVGTextElement>(null);
   const [taskItem, setTaskItem] = useState<JSX.Element>(<div />);
   const [isTextInside, setIsTextInside] = useState(true);
-
   useEffect(() => {
     switch (task.typeInternal) {
       case "milestone":
@@ -108,18 +107,30 @@ export const TaskItem: React.FC<TaskItemProps> = props => {
       }}
     >
       {taskItem}
-      <text
-        x={getX()}
-        y={task.y + taskHeight * 0.5}
-        className={
-          isTextInside
-            ? style.barLabel
-            : style.barLabel && style.barLabelOutside
-        }
-        ref={textRef}
-      >
-        {task.name}
-      </text>
+      {/* This will be applied on all type of tasks */}
+      {isTextInside ? (
+        <text
+          x={getX()}
+          y={task.y + taskHeight * 0.5}
+          className={
+            isTextInside
+              ? style.barLabel
+              : style.barLabel && style.barLabelOutside
+          }
+          ref={textRef}
+        >
+          {task.name}
+        </text>
+      ) : (
+        <foreignObject
+          x={task.x1 + 5}
+          y={task.y + taskHeight * 0.2 + 1}
+          width={task.x2 - task.x1 - 5}
+          height={task.height}
+        >
+          <text className={style.barbelText}>{task.name}</text>
+        </foreignObject>
+      )}
     </g>
   );
 };
