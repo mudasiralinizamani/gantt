@@ -1,21 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { Task, ViewMode, Gantt } from "gantt-task-react";
 import { ViewSwitcher } from "./components/view-switcher";
-import { getStartEndDateForProject, initTasks } from "./helper";
+import { customInitTasks, getStartEndDateForProject } from "./helper";
 import "gantt-task-react/dist/index.css";
 
 // Init
 const App = () => {
   const [view, setView] = React.useState<ViewMode>(ViewMode.Day);
-  const [tasks, setTasks] = React.useState<Task[]>(initTasks());
+  const [tasks, setTasks] = React.useState<Task[]>(customInitTasks());
   const [isChecked, setIsChecked] = React.useState(true);
-  let columnWidth = 65;
+  const [columnWidth, setColumnWidth] = useState(65);
   if (view === ViewMode.Year) {
-    columnWidth = 350;
+    setColumnWidth(350);
   } else if (view === ViewMode.Month) {
-    columnWidth = 300;
+    setColumnWidth(300);
   } else if (view === ViewMode.Week) {
-    columnWidth = 250;
+    setColumnWidth(250);
   }
 
   const handleTaskChange = (task: Task) => {
@@ -74,6 +74,7 @@ const App = () => {
         onViewListChange={setIsChecked}
         isChecked={isChecked}
       />
+      <button onClick={() => setColumnWidth(columnWidth - 10)}>click me</button>
       <h3>Gantt With Unlimited Height</h3>
       <Gantt
         tasks={tasks}

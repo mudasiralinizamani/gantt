@@ -3,7 +3,6 @@ import { ViewMode } from "../../types/public-types";
 import { TopPartOfCalendar } from "./top-part-of-calendar";
 import {
   getCachedDateTimeFormat,
-  getDaysInMonth,
   getLocalDayOfWeek,
   getLocaleMonth,
   getWeekNumberISO8601,
@@ -221,39 +220,33 @@ export const Calendar: React.FC<CalendarProps> = ({
     const dates = dateSetup.dates;
     for (let i = 0; i < dates.length; i++) {
       const date = dates[i];
-      const bottomValue = `${getLocalDayOfWeek(date, locale, "short")}, ${date
-        .getDate()
-        .toString()}`;
+      const bottomValue = `${
+        columnWidth > 50 ? `${getLocalDayOfWeek(date, locale, "short")},` : ""
+      } ${date.getDate().toString()}`;
 
-      bottomValues.push(
-        <text
-          key={date.getTime()}
-          y={headerHeight * 0.8}
-          x={columnWidth * i + columnWidth * 0.5}
-          className={styles.calendarBottomText}
-        >
-          {bottomValue}
-        </text>
-      );
-      if (
-        i + 1 !== dates.length &&
-        date.getMonth() !== dates[i + 1].getMonth()
-      ) {
-        const topValue = getLocaleMonth(date, locale);
+      columnWidth >= 25 &&
+        bottomValues.push(
+          <text
+            key={date.getTime()}
+            y={headerHeight * 0.8}
+            x={columnWidth * i + columnWidth * 0.5}
+            className={styles.calendarBottomText}
+          >
+            {bottomValue}
+          </text>
+        );
 
+      const topValue = `W${getWeekNumberISO8601(date)}`;
+
+      if (String(date).slice(0, 3) === "Sun") {
         topValues.push(
           <TopPartOfCalendar
-            key={topValue + date.getFullYear()}
+            key={topValue}
             value={topValue}
-            x1Line={columnWidth * (i + 1)}
+            x1Line={columnWidth * i}
             y1Line={0}
             y2Line={topDefaultHeight}
-            xText={
-              columnWidth * (i + 1) -
-              getDaysInMonth(date.getMonth(), date.getFullYear()) *
-                columnWidth *
-                0.5
-            }
+            xText={columnWidth * i}
             yText={topDefaultHeight * 0.9}
           />
         );

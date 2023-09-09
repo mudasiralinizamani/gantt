@@ -21,3 +21,8 @@
   user-select: none;
   pointer-events: none;
 }
+
+.barbelText {
+  color: #fff;
+  text-wrap: nowrap;
+}
